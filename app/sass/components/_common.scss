@@ -1,0 +1,121 @@
+body {
+    font-family: $light;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.wrap {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.review {
+    position: absolute;
+    z-index: 20;
+    min-width: 380px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: $white;
+    @include centrer;
+}
+
+.review-title {
+    background: $orange;
+    @include clearfix;
+    padding: 15px 15px 8px;
+    margin-bottom: 15px;
+}
+
+.review-title__left {
+    float: left;
+    width: 90%;
+}
+
+.review-title__right {
+    float: right;
+    position: relative;
+    top: -4px;
+}
+
+.review-title__text {
+    color: $white;
+    font-size: 14px;
+    i {
+        margin-right: 10px;
+    }
+}
+
+.review-title__close {
+    color: $white;
+    font-size: 20px;
+}
+
+.review-content,
+.review-form {
+    margin: 0 15px 15px;
+}
+
+.review-content {
+    height: 155px;
+    position: relative;
+    border-bottom: 1px solid $lgray;
+}
+
+.review-content-title {
+    margin-bottom: 12px;
+}
+
+.review-content-title__text {
+    font-size: 16px;
+}
+
+.review-content-descr {
+    margin-bottom: 30px;
+}
+
+.review-content-descr__text {
+    font-size: 15px;
+}
+
+.review-form-title {
+    margin-bottom: 15px;
+}
+
+.review-form-title__text {
+    color: $orange;
+    font-weight: bold;
+}
+
+.review-form-group {
+    margin-bottom: 15px;
+}
+
+.review-form-group__input,
+.review-form-group__area {
+    width: 100%;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid $gray;
+    padding: 5px 15px;
+    color: $gray;
+}
+
+.review-form-group--btn {
+    text-align: right;
+}
+
+.review-form-group__btn {
+    padding: 10px 20px;
+    color: $white;
+    background: $orange;
+    border: none;
+    border-radius: 10px;
+}
+
+.review-form-group__area {
+    min-height: 130px;
+    resize: vertical;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "main-dz1",
+  "version": "0.0.0",
+  "authors": [
+    "Vadim D."
+  ],
+  "description": "dz loftschool",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "dz loftschool"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "normalize.css": "~3.0.3",
+    "modernizr": "~2.8.3",
+    "perfect-scrollbar": "^0.6.10",
+    "handlebars": "^4.0.5"
+  }
+}

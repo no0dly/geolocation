@@ -1,0 +1,112 @@
+/* --------- mixins --------- */
+/* --------- variables --------- */
+/* --------- fonts --------- */
+/* --------- components --------- */
+body {
+  font-family: "fira_sanslight"; }
+
+* {
+  box-sizing: border-box; }
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  position: fixed; }
+
+.review {
+  position: absolute;
+  z-index: 20;
+  min-width: 380px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #ffffff;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.review-title {
+  background: #ff8663;
+  padding: 15px 15px 8px;
+  margin-bottom: 15px; }
+  .review-title:before, .review-title:after {
+    content: "";
+    display: table; }
+  .review-title:after {
+    clear: both; }
+
+.review-title__left {
+  float: left;
+  width: 90%; }
+
+.review-title__right {
+  float: right;
+  position: relative;
+  top: -4px; }
+
+.review-title__text {
+  color: #ffffff;
+  font-size: 14px; }
+  .review-title__text i {
+    margin-right: 10px; }
+
+.review-title__close {
+  color: #ffffff;
+  font-size: 20px; }
+
+.review-content,
+.review-form {
+  margin: 0 15px 15px; }
+
+.review-content {
+  height: 155px;
+  position: relative;
+  border-bottom: 1px solid #f0f0f0; }
+
+.review-content-title {
+  margin-bottom: 12px; }
+
+.review-content-title__text {
+  font-size: 16px; }
+
+.review-content-descr {
+  margin-bottom: 30px; }
+
+.review-content-descr__text {
+  font-size: 15px; }
+
+.review-form-title {
+  margin-bottom: 15px; }
+
+.review-form-title__text {
+  color: #ff8663;
+  font-weight: bold; }
+
+.review-form-group {
+  margin-bottom: 15px; }
+
+.review-form-group__input,
+.review-form-group__area {
+  width: 100%;
+  border-radius: 10px;
+  outline: none;
+  border: 1px solid #9f9f9f;
+  padding: 5px 15px;
+  color: #9f9f9f; }
+
+.review-form-group--btn {
+  text-align: right; }
+
+.review-form-group__btn {
+  padding: 10px 20px;
+  color: #ffffff;
+  background: #ff8663;
+  border: none;
+  border-radius: 10px; }
+
+.review-form-group__area {
+  min-height: 130px;
+  resize: vertical; }
