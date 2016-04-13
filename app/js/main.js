@@ -67,13 +67,25 @@
 
                 function sendAjax(e) {
                     e.preventDefault();
-                    var markData =  new FormData(form);
-                    console.log(markData);
-                    debugger;
-                    // var xhr      = new XMLHttpRequest();
+                    var xhr      = new XMLHttpRequest();
 
-                    // xhr.open('POST', './server.js');
-                    // xhr.send();
+                    var data = {
+                        'op': 'add'
+                    };
+
+                    data.coords  = {
+                        'x': 55.76048396289834,
+                        'y': 37.58335174560545
+                    };
+                    data.address = markData;
+                    data.name    = form.firstName.value;
+                    data.place   = form.place.value;
+                    data.text    = form.rewiev.value;
+                    data.date    = new Date();
+                    console.log(data);
+                    xhr.open('POST', 'http://localhost:3000/');
+
+                    xhr.send(data);
                 }
             });
         }
