@@ -16,7 +16,6 @@
     }).then(function(val) {
         val.events.add('click', openForm);
 
-
         function openForm(e) {
             var coords  = e.get('coords');
             var content = document.querySelector('.review-content');
@@ -60,6 +59,21 @@
                 function closeRewiev(e) {
                     var result     = document.querySelector('.review');
                     result.innerHTML = '';
+                }
+            }).then(function() {
+                var form = document.querySelector('.review-form');
+
+                form.addEventListener('submit', sendAjax);
+
+                function sendAjax(e) {
+                    e.preventDefault();
+                    var markData =  new FormData(form);
+                    console.log(markData);
+                    debugger;
+                    // var xhr      = new XMLHttpRequest();
+
+                    // xhr.open('POST', './server.js');
+                    // xhr.send();
                 }
             });
         }
