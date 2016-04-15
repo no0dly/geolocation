@@ -6,6 +6,7 @@ script(id="form-review" type="text/x-handlebars-template").
       </div>
       <div class="review-title__right"><a href="#" class="review-title__close"><i class="fa fa-times"></i></a></div>
     </div>
+
     <div class="review-content">
       <div class="review-content-title">
         <div class="review-content-title__text"><strong>svetlana</strong> Шоколадница 13.12.2015</div>
@@ -24,3 +25,13 @@ script(id="form-review" type="text/x-handlebars-template").
       <div class="review-form-group review-form-group--btn"><input type="submit" value="Добавить" class="review-form-group__btn"></div>
     </form>
   </div>
+
+//- script(id="review" type="text/x-handlebars-template").
+//-   {{ #each list }}
+//-     <div class="review-content-title">
+//-       <div class="review-content-title__text"><strong>{{list.name}}</strong> {{list.place}} {{list.date}}</div>
+//-     </div>
+//-     <div class="review-content-descr">
+//-       <div class="review-content-descr__text">{{list.text}}</div>
+//-     </div>
+//-   {{ /each }}
