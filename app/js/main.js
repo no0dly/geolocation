@@ -37,7 +37,7 @@
         if( coordsKeys.length ) {
             var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
                 '<h2 class=ballon_header>{{ properties.balloonContentHeader|raw }}</h2>' +
-                '<div class=ballon_body><a href="#">{{ properties.balloonContentBody|raw }}</a></div>' +
+                '<div class=ballon_body><a class=ballon_link href="#">{{ properties.balloonContentBody|raw }}</a></div>' +
                 '<div class=ballon_content>{{ properties.balloonContentContent|raw }}</div>' +
                 '<div class=ballon_footer>{{ properties.balloonContentFooter|raw }}</div>'
             );
@@ -55,24 +55,34 @@
                 clusterBalloonContentLayoutWidth: 200,
                 clusterBalloonContentLayoutHeight: 130,
                 clusterBalloonPagerSize: 5
-            }),
+            });
 
-            getPointOptions = function () {
+            var getPointOptions = function () {
                 return {
                     preset: 'islands#violetIcon'
                 };
             },
+            getGeoObj = function( coordArr, place, address, text, date ) {
+                return new ymaps.Placemark(coordArr, {
+                        balloonContentHeader:  place,
+                        balloonContentBody: address,
+                        balloonContentContent: text,
+                        balloonContentFooter: date.toLocaleString()
+                    }, getPointOptions());
+            };
             geoObjects = [];
             coordsKeys.forEach(function(val, index) {
-                var coordArr = [ data[val][0].coords.x, data[val][0].coords.y];
-                var parseDate = new Date(data[val][0].date);
+                for(var i = 0; i < data[val].length; i++) {
+                    var coordArr = [ data[val][i].coords.x, data[val][i].coords.y];
+                    var parseDate = new Date(data[val][i].date);
+                    var place = data[val][i].place;
+                    var address = data[val][i].address;
+                    var text   = data[val][i].text;
 
-                geoObjects[index] = new ymaps.Placemark(coordArr, {
-                    balloonContentHeader:  data[val][0].place,
-                    balloonContentBody: data[val][0].address,
-                    balloonContentContent: data[val][0].text,
-                    balloonContentFooter: parseDate.toLocaleString()
-                }, getPointOptions());
+                    geoObjects.push( getGeoObj( coordArr, place, address, text, parseDate ) );
+
+                    
+                }
             });
 
             clusterer.options.set({
@@ -86,6 +96,38 @@
             myMap.setBounds(clusterer.getBounds(), {
                 checkZoomRange: true
             });
+        }
+    }).then(function() {
+
+        document.addEventListener('click', goToReview);
+
+        function goToReview(e) {
+            if(e.target.classList.contains('ballon_link')) {
+                new Promise(function(resolve, reject) {
+                    var link      = e.target;
+                    var linkText  = link.innerText;
+                    var req       = {
+                        op: "get",
+                        address: linkText
+                    };
+                    var xhrReview = new XMLHttpRequest();
+
+                    xhrReview.open('POST', 'http://localhost:3000/');
+                    xhrReview.onload = function() {
+                        var data = JSON.parse(xhrReview.response);
+                        console.log(data);
+                        resolve(data);
+                    };
+                    xhrReview.send(JSON.stringify(req));
+                }).then(function(data) {
+                    var source     = document.getElementById('form-review-full').innerHTML;
+                    var templateFn = Handlebars.compile(source);
+                    var template   = templateFn({data: data});
+                    var result     = document.querySelector('.review');
+
+                    result.innerHTML = template;
+                });
+            }
         }
     }).then(function(data) {
         myMap.events.add('click', openForm);
@@ -164,13 +206,17 @@
                     xhr.open('POST', 'http://localhost:3000/');
                     xhr.send(JSON.stringify(data));
                     xhr.onload = function() {
+                        var data = JSON.parse(xhr.response);
+                        if(data.error) {
+                            return false;
+                        }
                         console.log('data was sended.');
-
-                        // addReview(name, place, text );
+                        addReview( name, place, text, date );
 
                         form.firstName.value  = '';
                         form.place.value = '';
                         form.rewiev.value  = '';
+
 
                         clusterer.add(new ymaps.Placemark( coords, {
                             }, {
@@ -181,15 +227,29 @@
                         myMap.geoObjects.add(clusterer);
                             
                     };
-                }
-                // function addReview(name, place, text) {
-                //     var source     = document.getElementById('review').innerHTML;
-                //     var templateFn = Handlebars.compile(source);
-                //     var template   = templateFn({data: markData});
-                //     var result     = document.querySelector('.review');
 
-                //     result.innerHTML = template;
-                // }
+                }
+                function addReview(name, place, text, date) {
+                    var source     = document.getElementById('review').innerHTML;
+                    var data       = {
+                        name: name,
+                        place: place,
+                        text: text,
+                        date: date.toLocaleTimeString()
+                    };
+                    var templateFn = Handlebars.compile(source);
+                    var template   = templateFn({data: data});
+                    var result     = document.querySelector('.review-content');
+                    var empty      = document.querySelector('.review-content__wrap--empty');
+                    var el         = document.createElement('div');
+
+                    el.classList.add('review-content__wrap');
+                    el.innerHTML   = template;
+                    if(empty) {
+                        result.removeChild(empty);
+                    }
+                    result.insertBefore(el, result.firstChild);
+                }
             });
         }
     });
