@@ -1,4 +1,4 @@
-define( ['model', 'controller', 'map'], function( Model, Controller, myMap ) {
+define( ['controller'], function( Controller ) {
 
     new Promise(function(resolve) {
 
@@ -6,7 +6,7 @@ define( ['model', 'controller', 'map'], function( Model, Controller, myMap ) {
 
     }).then(function() {
 
-        myMap.getMap();
+        Controller.getMap();
 
     }).then(function() {
 
