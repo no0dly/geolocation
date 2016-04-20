@@ -1,15 +1,6 @@
 define('model', function() {
     return {
-        create: function() {
-            new Promise(function(resolve) {
-                var myMap = new ymaps.Map("map", {
-                    center: [55.76, 37.64], 
-                    zoom: 14
-                });
-                resolve(myMap);
-            });
-        },
-
+        
         getAllrewiev: function() {
             return new Promise(function(resolve, reject) {
                 var xhr  = new XMLHttpRequest();

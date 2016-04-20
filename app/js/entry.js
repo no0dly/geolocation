@@ -1,4 +1,4 @@
-define( ['model', 'controller'], function( Model, Controller ) {
+define( ['model', 'controller', 'map'], function( Model, Controller, Map ) {
 
     new Promise(function(resolve) {
 
@@ -6,10 +6,10 @@ define( ['model', 'controller'], function( Model, Controller ) {
 
     }).then(function() {
 
-        return Model.create();
+        return Map.getMap();
 
     }).then(function() {
-
+        
         return Controller.drawBallons;
 
     }).then(function(val) {
