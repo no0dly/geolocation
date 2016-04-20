@@ -1,6 +1,5 @@
-define('model', function() {
+define('model', ['map'], function( myMap ) {
     return {
-        
         getAllrewiev: function() {
             return new Promise(function(resolve, reject) {
                 var xhr  = new XMLHttpRequest();
@@ -21,7 +20,7 @@ define('model', function() {
             });
         },
 
-        getBaloonRewiev: function(e) {
+        getReviewsByAddress: function(e) {
             if(e.target.classList.contains('ballon_link')) {
                 new Promise(function(resolve, reject) {
                     var link      = e.target;
@@ -35,19 +34,58 @@ define('model', function() {
                     xhrReview.open('POST', 'http://localhost:3000/');
                     xhrReview.onload = function() {
                         var data = JSON.parse(xhrReview.response);
-                        console.log(data);
                         resolve(data);
                     };
                     xhrReview.send(JSON.stringify(req));
-                }).then(function(data) {
-                    var source     = document.getElementById('form-review-full').innerHTML;
-                    var templateFn = Handlebars.compile(source);
-                    var template   = templateFn({data: data});
-                    var result     = document.querySelector('.review');
-
-                    result.innerHTML = template;
                 });
             }
+        },
+
+        addReview: function(e) {
+            e.preventDefault();
+            var xhr      = new XMLHttpRequest();
+            var name     = form.firstName.value;
+            var place    = form.place.value;
+            var text     = form.rewiev.value;
+            var date     = new Date();
+            var data = {
+                'op': 'add',
+                'review': {
+                    'coords':{
+                        'x': coords[0],
+                        'y': coords[1]
+                    },
+                    'address': markData,
+                    'name'   : name,
+                    'place'  : place,
+                    'text'   : text,
+                    'date'   : date.toUTCString()
+                }  
+            };
+
+            xhr.open('POST', 'http://localhost:3000/');
+            xhr.send(JSON.stringify(data));
+            xhr.onload = function() {
+                var data = JSON.parse(xhr.response);
+                if(data.error) {
+                    return false;
+                }
+                console.log('data was sended.');
+                addReview( name, place, text, date );
+
+                form.firstName.value  = '';
+                form.place.value = '';
+                form.rewiev.value  = '';
+
+                clusterer.add(new ymaps.Placemark( coords, {
+                    }, {
+                        preset: 'islands#icon',
+                        iconColor: '#b51eff'
+                    }));
+
+                myMap.get().geoObjects.add(clusterer);
+                    
+            };
         }
     };
 });
