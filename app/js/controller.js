@@ -1,4 +1,4 @@
-define( 'controller', ['model','map', 'events', 'view'], function( Model, myMap, Events, View ) {
+define( 'controller', ['model','map', 'view'], function( Model, myMap, View ) {
 
     return {
         drawBallons: function() {
@@ -13,6 +13,10 @@ define( 'controller', ['model','map', 'events', 'view'], function( Model, myMap,
 
         getMap: function() {
             return myMap.getMap();
+        },
+
+        showForm: function() {
+            console.log('hello');
         }
     };
 });

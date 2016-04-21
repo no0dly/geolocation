@@ -1,10 +1,11 @@
-define('map', function( ) {
+define('map', function() {
     return {
         getMap: function() {
-             return new ymaps.Map("map", {
+            var myMap = new ymaps.Map("map", {
                 center: [55.76, 37.64], 
                 zoom: 14
             });
+            return myMap;
         },
 
         getClusterer: function() {

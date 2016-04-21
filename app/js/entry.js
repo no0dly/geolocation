@@ -1,4 +1,4 @@
-define( ['controller'], function( Controller ) {
+define( ['controller', 'events'], function( Controller, Events ) {
 
     new Promise(function(resolve) {
 
@@ -6,13 +6,14 @@ define( ['controller'], function( Controller ) {
 
     }).then(function() {
 
-        Controller.getMap();
+        return Controller.getMap();
 
     }).then(function() {
 
         Controller.drawBallons();
 
     }).then(function(val) {
-        
+        console.log(Events.clickOnMapListener);
+        Events.clickOnMapListener();
     });
 });

@@ -27,11 +27,8 @@ define('view', ['map'], function( myMap ) {
                         var text   = data[val][i].text;
 
                         geoObjects.push( getGeoObj( coordArr, place, address, text, parseDate ) );
-
-                        
                     }
                 });
-
 
                 myMap.getClusterer().options.set({
                     gridSize: 80,
@@ -40,10 +37,10 @@ define('view', ['map'], function( myMap ) {
 
                 myMap.getClusterer().add(geoObjects);
                 myMap.getMap().geoObjects.add( myMap.getClusterer() );
-                // console.log(myMap.getMap().setBounds());
-                myMap.getMap().setBounds( myMap.getClusterer().getBounds(), {
-                    checkZoomRange: true
-                });
+
+                // myMap.getMap().setBounds( myMap.getClusterer().getBounds(), {
+                //     checkZoomRange: true
+                // });
             }
         },
 
