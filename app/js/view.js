@@ -44,5 +44,22 @@ define('view', ['map'], function( myMap ) {
             }
         },
 
+        drawForm: function( markData, coords ) {
+            var source     = document.getElementById('form-review').innerHTML;
+            var templateFn = Handlebars.compile(source);
+            var template   = templateFn({data: markData});
+            var result     = document.querySelector('.review');
+
+            result.innerHTML = template;
+        },
+
+        drawScroll: function() {
+            var content = document.querySelector('.review-content');
+            
+            if(content) {
+                Ps.initialize(content);
+            }
+        },
+
     };
 });

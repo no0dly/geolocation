@@ -1,11 +1,18 @@
 define('events', ['controller', 'map'] , function( Controller, myMap ) {
     return {
+        
         clickOnMapListener: function() {
-            console.log(myMap.getMap().events);
-            return myMap.getMap().events.add('click', function() {
-                console.log(3333);
-            });
+            return myMap.getMap().events.add('click', Controller.showForm);
+        },
 
-        }
+        // closeBtn: function() {
+        //     var closeBtn = document.querySelector('.review-title__close');
+        //         closeBtn.addEventListener('click', closeRewiev);
+
+        //     function closeRewiev(e) {
+        //         var result     = document.querySelector('.review');
+        //         result.innerHTML = '';
+        //     }
+        // }
     };
 });
