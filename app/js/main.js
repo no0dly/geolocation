@@ -25,7 +25,6 @@
                 resolve(data);
             };
             xhrGet.onerror = function(e) {
-                console.log(e, 'kookooo');
                 reject(new Error('problem?'));
             };
 
@@ -34,7 +33,6 @@
     }).then(function(data) {
         var coordsKeys = Object.keys(data);
 
-        if( coordsKeys.length ) {
             var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
                 '<h2 class=ballon_header>{{ properties.balloonContentHeader|raw }}</h2>' +
                 '<div class=ballon_body><a class=ballon_link href="#">{{ properties.balloonContentBody|raw }}</a></div>' +
@@ -71,6 +69,9 @@
                     }, getPointOptions());
             };
             geoObjects = [];
+
+        if( coordsKeys.length ) {
+
             coordsKeys.forEach(function(val, index) {
                 for(var i = 0; i < data[val].length; i++) {
                     var coordArr = [ data[val][i].coords.x, data[val][i].coords.y];
@@ -213,16 +214,19 @@
                         console.log('data was sended.');
                         addReview( name, place, text, date );
 
+                        clusterer.add(new ymaps.Placemark( coords, {
+                            balloonContentHeader:  place,
+                            balloonContentBody: markData,
+                            balloonContentContent: text,
+                            balloonContentFooter: date.toLocaleString()
+                        }, {
+                            preset: 'islands#icon',
+                            iconColor: '#b51eff'
+                        }));
+
                         form.firstName.value  = '';
                         form.place.value = '';
                         form.rewiev.value  = '';
-
-
-                        clusterer.add(new ymaps.Placemark( coords, {
-                            }, {
-                                preset: 'islands#icon',
-                                iconColor: '#b51eff'
-                            }));
 
                         myMap.geoObjects.add(clusterer);
                             
