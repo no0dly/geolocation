@@ -136,24 +136,25 @@
         function openForm(e) {
             var coords  = e.get('coords');
             var content = document.querySelector('.review-content');
+            var clickPoint = [e.get('clientX'), e.get('clientY')];
             
             if(content) {
                 Ps.initialize(content);
             }
 
-            getAddress(coords);
+            getAddress(coords, clickPoint);
         }
 
-        function getAddress(coords) {
+        function getAddress(coords, clickPoint) {
             ymaps.geocode(coords).then(function (res) {
                 var firstGeoObject = res.geoObjects.get(0);
                 var markData = firstGeoObject.properties.get('text');
 
-                drawForm(markData, coords);
+                drawForm(markData, coords, clickPoint);
             });
         }
 
-        function drawForm(markData, coords) {
+        function drawForm(markData, coords, clickPoint) {
             new Promise(function(resolve) {
                 var source     = document.getElementById('form-review').innerHTML;
                 var templateFn = Handlebars.compile(source);
@@ -162,7 +163,35 @@
 
                 result.innerHTML = template;
 
-                resolve();
+                resolve(clickPoint);
+            }).then(function() {
+                var reviewWindow = document.querySelector('.review');
+                var windowRect   = reviewWindow.getBoundingClientRect();
+                var top, left;
+
+                top = clickPoint[1];
+                left = clickPoint[0];
+
+                console.log(clickPoint);
+
+                if (top + windowRect.height > window.innerHeight) {
+                    top = window.innerHeight - windowRect.height;
+
+                    if (top < 0) {
+                        top = 0;
+                    }
+                }
+
+                if (left + windowRect.width > window.innerWidth) {
+                    left = window.innerWidth - windowRect.width;
+
+                    if (left < 0) {
+                        left = 0;
+                    }
+                }
+
+                reviewWindow.style.top = top + 'px';
+                reviewWindow.style.left = left + 'px';
             }).then(function() {
                 //add scroll
                 var content = document.querySelector('.review-content');
