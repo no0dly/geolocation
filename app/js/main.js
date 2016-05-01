@@ -127,7 +127,16 @@
                     var result     = document.querySelector('.review');
 
                     result.innerHTML = template;
+                    
+                }).then(function(data) {
+                    var content = document.querySelector('.review-content');
+                    Ps.initialize(content);
                 });
+            } else if ( e.target.classList.contains('fa-times') ) {
+                //close btn
+                console.log(123);
+                var result     = document.querySelector('.review');
+                result.innerHTML = '';
             }
         }
     }).then(function(data) {
@@ -197,15 +206,6 @@
                 var content = document.querySelector('.review-content');
                 Ps.initialize(content);
 
-            }).then(function() {
-                //close btn
-                var closeBtn = document.querySelector('.review-title__close');
-                closeBtn.addEventListener('click', closeRewiev);
-
-                function closeRewiev(e) {
-                    var result     = document.querySelector('.review');
-                    result.innerHTML = '';
-                }
             }).then(function() {
                 var form = document.querySelector('.review-form');
 
