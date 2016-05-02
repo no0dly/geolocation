@@ -17,7 +17,7 @@ define('requests', function() {
 
                     resolve(JSON.parse(xhr.response));
                 };
-
+                console.log(JSON.stringify(data));
                 xhr.send(JSON.stringify(data));
             });
         }

@@ -1,4 +1,4 @@
-define( ['controller', 'events', 'map', 'requests', 'actions'], function( Controller, Events, myMap, request, actions) {
+define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
     var coords,
         markData;
 
@@ -82,6 +82,9 @@ define( ['controller', 'events', 'map', 'requests', 'actions'], function( Contro
                     var form       = document.querySelector('.review-form');
                     var date       = new Date();
                     var ballonLink = document.querySelector('.ballon_link');
+                    var name     = form.firstName.value;
+                    var place    = form.place.value;
+                    var text     = form.rewiev.value;
 
                     if( ballonLink ) {
                         coords     = [ ballonLink.dataset.x, ballonLink.dataset.y ];
@@ -89,21 +92,19 @@ define( ['controller', 'events', 'map', 'requests', 'actions'], function( Contro
                     }
 
                     var data = {
-                        'op': 'add',
-                        'review': {
-                            'coords':{
-                                'x': coords[0],
-                                'y': coords[1]
-                            },
-                            'address': markData,
-                            'name'   : form.firstName.value,
-                            'place'  : form.place.value,
-                            'text'   : form.rewiev.value,
-                            'date'   : date.toUTCString()
-                        }  
+                        'coords':{
+                            'x': coords[0],
+                            'y': coords[1]
+                        },
+                        'address': markData,
+                        'name'   : name,
+                        'place'  : place,
+                        'text'   : text,
+                        'date'   : date.toUTCString()
                     };
 
-                    actions.addReview(data);
+                    actions.addReview( data, coords, name, place, text, date, markData );
+                    actions.addReviewComment( name, place, text, date );
                 }
             }
         }).then(function() {
@@ -111,4 +112,11 @@ define( ['controller', 'events', 'map', 'requests', 'actions'], function( Contro
         });
 
     });
+    Handlebars.registerHelper('formatDate', function(ts) {
+        return formatDate(ts);
+    });
+    function formatDate(ts) {
+        var date = new Date(ts);
+        return date.toLocaleString();
+    }
 });

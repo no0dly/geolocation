@@ -72,7 +72,7 @@
           {{#each data}}
             <div class="review__wrap">
               <div class="review-content-title">
-                <div class="review-content-title__text"><strong>{{name}}</strong> {{place}} {{date}}</div>
+                <div class="review-content-title__text"><strong>{{name}}</strong> {{place}} {{formatDate date}}</div>
               </div>
               <div class="review-content-descr">
                 <div class="review-content-descr__text">{{text}}</div>
@@ -94,7 +94,6 @@
     <!-- build:js js/vendor.js -->
     <!--bower:js-->
     <script src="bower/modernizr/modernizr.js"></script>
-    <script src="bower/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
     <script src="bower/perfect-scrollbar/js/perfect-scrollbar.js"></script>
     <script src="bower/handlebars/handlebars.js"></script>
     <!--endbower-->

@@ -44,7 +44,7 @@ script(id="form-review-full" type="text/x-handlebars-template").
       {{#each data}}
        <div class="review__wrap">
           <div class="review-content-title">
-            <div class="review-content-title__text"><strong>{{name}}</strong> {{place}} {{date}}</div>
+            <div class="review-content-title__text"><strong>{{name}}</strong> {{place}} {{formatDate date}}</div>
           </div>
           <div class="review-content-descr">
             <div class="review-content-descr__text">{{text}}</div>
