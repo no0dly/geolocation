@@ -1,6 +1,4 @@
 define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
-    var coords,
-        markData;
 
     new Promise(function(resolve) {
 
@@ -24,12 +22,12 @@ define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
             };
             var getGeoObj = function( coordArr, place, address, text, date ) {
                 return new ymaps.Placemark(coordArr, {
-                        balloonContentHeader:  place,
-                        balloonContentBody: address,
-                        balloonContentContent: text,
-                        balloonContentFooter: date.toLocaleString(),
-                        coords: coordArr
-                    }, getPointOptions());
+                    balloonContentHeader:  place,
+                    balloonContentBody: address,
+                    balloonContentContent: text,
+                    balloonContentFooter: date.toLocaleString(),
+                    coords: coordArr
+                }, getPointOptions());
             };
 
             if( coordsKeys.length ) {
@@ -68,10 +66,11 @@ define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
                 
                 if( e.target.classList.contains('ballon_link')) {
                     e.preventDefault();
-                    var link      = e.target;
-                    var address   = link.innerText;
+                    var link        = e.target;
+                    var address     = link.innerText;
 
                     actions.openWindowReview(address);
+
 
                 } else if ( e.target.classList.contains('fa-times') ) {
                     e.preventDefault();
@@ -82,13 +81,17 @@ define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
                     var form       = document.querySelector('.review-form');
                     var date       = new Date();
                     var ballonLink = document.querySelector('.ballon_link');
-                    var name     = form.firstName.value;
-                    var place    = form.place.value;
-                    var text     = form.rewiev.value;
+                    var name       = form.firstName.value;
+                    var place      = form.place.value;
+                    var text       = form.rewiev.value;
+                    var coords, markData;
 
                     if( ballonLink ) {
                         coords     = [ ballonLink.dataset.x, ballonLink.dataset.y ];
                         markData   = ballonLink.innerText;
+                    } else {
+                        coords     = actions.getCoords();
+                        markData   = actions.getAddress();
                     }
 
                     var data = {
@@ -108,15 +111,19 @@ define( ['map', 'requests', 'actions'], function( myMap, request, actions) {
                 }
             }
         }).then(function() {
-            
+            myMap.getMap().events.add('click', actions.openWindowClick );
         });
-
     });
+
     Handlebars.registerHelper('formatDate', function(ts) {
         return formatDate(ts);
     });
+    
     function formatDate(ts) {
-        var date = new Date(ts);
-        return date.toLocaleString();
+        var date    = new Date(ts).toLocaleString();
+            dateArr = date.split(' ');
+
+        return dateArr[1] + dateArr[2];
+
     }
 });
